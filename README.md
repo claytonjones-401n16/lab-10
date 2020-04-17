@@ -30,4 +30,4 @@ How do you run tests?
 
 #### UML  
 
-![lab 10 UML]()
+![lab 10 UML](./assets/lab-10-UML.png)
