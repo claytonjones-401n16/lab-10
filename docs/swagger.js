@@ -6,8 +6,8 @@ const generateSwagger = (app) => {
   let options = {
       swaggerDefinition: {
           info: {
-              description: 'Access CRUD operations for fruits and vegetables',
-              title: 'My API Server',
+              description: 'Access CRUD operations for users',
+              title: 'Lab 10 - Authentication',
               version: '1.0.0',
           },
           host: 'localhost:3000',
