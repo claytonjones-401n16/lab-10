@@ -1,0 +1,35 @@
+{
+  "name": "lab-10",
+  "version": "1.0.0",
+  "description": "Repository for 401n16 lab 10",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest --verbose --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/claytonjones-401n16/lab-10.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/claytonjones-401n16/lab-10/issues"
+  },
+  "homepage": "https://github.com/claytonjones-401n16/lab-10#readme",
+  "dependencies": {
+    "@code-fellows/supergoose": "^1.0.2",
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-swagger-generator": "^1.1.17",
+    "jest": "^25.3.0",
+    "mongoose": "^5.9.9",
+    "morgan": "^1.10.0"
+  }
+}
