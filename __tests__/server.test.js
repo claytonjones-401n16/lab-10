@@ -71,3 +71,14 @@ describe('testing POST /signin endpoint', () => {
     expect(response.body.message).toStrictEqual('Invalid Credentials');
   });
 });
+
+describe('testing 404 route', () => {
+  it('should say resource not found', async () => {
+    let response = await mockRequest.get('/groot');
+
+    console.log(response.status);
+
+    expect(response.status).toStrictEqual(404);
+    expect(response.text).toStrictEqual('Resource not found');
+  });
+});
