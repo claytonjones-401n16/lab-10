@@ -4,8 +4,8 @@
 
 ### Links and Resources  
 
-[submission PR]()  
-[GitHub Actions]()  
+[submission PR](https://github.com/claytonjones-401n16/lab-10/pull/1)  
+[GitHub Actions](https://github.com/claytonjones-401n16/lab-10/actions)  
 [back-end URL]()  
 
 ### Setup  
