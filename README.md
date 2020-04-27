@@ -14,6 +14,7 @@
 
 - `PORT`
 - `MONGODB_URI`
+- `SECRET`
   
 #### How to initialize/run your application (where applicable)
 `node index.js` OR
@@ -21,7 +22,7 @@
 
 #### Documentation   
 To view API docs:
-- use URL ``
+- use URL `https://js-401n16-authentication.herokuapp.com/api-docs`
   
 #### Tests  
 
