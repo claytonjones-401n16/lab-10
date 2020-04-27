@@ -1,10 +1,10 @@
-# LAB - Class 10
-## Lab 10 - Authentication
+# LAB - Class 13
+## Lab 13 - Bearer Authentication
 ### Author: Clayton Jones
 
 ### Links and Resources  
 
-[submission PR](https://github.com/claytonjones-401n16/lab-10/pull/1)  
+[submission PR](https://github.com/claytonjones-401n16/lab-10/pull/2)  
 [GitHub Actions](https://github.com/claytonjones-401n16/lab-10/actions)  
 [back-end URL](https://js-401n16-authentication.herokuapp.com/)  
 
@@ -30,4 +30,4 @@ How do you run tests?
 
 #### UML  
 
-![lab 10 UML](./assets/lab-10-UML.png)
+![lab 13 UML](./assets/lab-10-UML.png)

@@ -39,12 +39,11 @@ describe('testing POST /singup endpoint', () => {
     let response = await mockRequest.post('/signup').send({"username":"JimmyNeutron", "password":"NaCl"});
 
     expect(response.status).toStrictEqual(200);
-    expect(response.body.username).toStrictEqual('JimmyNeutron');
+    expect(response.body.user.username).toStrictEqual('JimmyNeutron');
   });
 
   it('denies duplicate username', async () => {
     let response = await mockRequest.post('/signup').send({"username":"Jack", "password":"Password"});
-
     expect(response.status).toStrictEqual(400);
     expect(response.body.message).toStrictEqual('Username already exists.');
   });
@@ -54,7 +53,8 @@ describe('testing POST /signin endpoint', () => {
   it('correctly signs in existing user with correct info', async () => {
     let response = await mockRequest.post('/signin').auth('Jack:testing123');
 
-    expect(response.text).toStrictEqual('Sign-in successful');
+    expect(response.body.user.username).toStrictEqual('Jack');
+    expect(response.body.token).toBeTruthy();
   });
 
   it('denies signin with invalid username', async () => {
@@ -80,5 +80,16 @@ describe('testing 404 route', () => {
 
     expect(response.status).toStrictEqual(404);
     expect(response.text).toStrictEqual('Resource not found');
+  });
+});
+
+describe('testing GET /user endpoint', () => {
+  it('authorizes users via token', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+  
+    let response = await mockRequest.get('/user').set('Authorization', `Bearer ${token}`);
+  
+    expect(response.body.user).toStrictEqual('Jack');
   });
 });
