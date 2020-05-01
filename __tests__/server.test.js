@@ -19,6 +19,17 @@ beforeAll(async () => {
     "password": "jillPass"
   });
 
+  await UsersModel.create({
+    "username": "AllyAdmin",
+    "password": "password",
+    "role": "admin"
+  });
+
+  await UsersModel.create({
+    "username": "EddyEdit",
+    "password": "password",
+    "role": "editor"
+  });
 });
 
 
@@ -29,7 +40,6 @@ describe('testing GET /users endpoint', () => {
     let response = await mockRequest.get('/users');
 
     expect(response.status).toStrictEqual(200);
-    expect(response.body.length).toStrictEqual(2);
     expect(response.body[0].username).toStrictEqual('Jack');
   });
 });
@@ -76,8 +86,6 @@ describe('testing 404 route', () => {
   it('should say resource not found', async () => {
     let response = await mockRequest.get('/groot');
 
-    console.log(response.status);
-
     expect(response.status).toStrictEqual(404);
     expect(response.text).toStrictEqual('Resource not found');
   });
@@ -93,3 +101,130 @@ describe('testing GET /user endpoint', () => {
     expect(response.body.user).toStrictEqual('Jack');
   });
 });
+
+describe('access control endpoints', () => {
+  it('GET /public', async () => {
+    let response = await mockRequest.get('/public');
+  
+    expect(response.text).toStrictEqual('Public page everyone can see');
+  });
+
+  it('GET /private', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+
+    let response = await mockRequest.get('/private').set('Authorization', `Bearer ${token}`);
+
+    expect(response.text).toStrictEqual('Logged in, can view content.');
+  });
+
+  it('GET /readonly: user', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+
+    let response = await mockRequest.get('/readonly').set('Authorization', `Bearer ${token}`);
+
+    expect(response.text).toStrictEqual('You have read access');
+
+  });
+
+  it('GET /readonly: editor', async () => {
+    let userData = await mockRequest.post('/signin').auth('EddyEdit:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.get('/readonly').set('Authorization', `Bearer ${token}`);
+
+    expect(response.text).toStrictEqual('You have read access');
+
+  });
+
+  it('GET /readonly: admin', async () => {
+    let userData = await mockRequest.post('/signin').auth('AllyAdmin:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.get('/readonly').set('Authorization', `Bearer ${token}`);
+
+    expect(response.text).toStrictEqual('You have read access');
+
+  });
+
+  // -- POST /create
+
+  it('POST /create: user', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+
+    let response = await mockRequest.post('/create').set('Authorization', `Bearer ${token}`);
+    expect(response.body.message).toStrictEqual('No access');
+  });
+
+  it('POST /create: editor', async () => {
+    let userData = await mockRequest.post('/signin').auth('EddyEdit:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.post('/create').set('Authorization', `Bearer ${token}`);
+    expect(response.body.message).toStrictEqual('No access');
+  });
+
+  it('POST /create: admin', async () => {
+    let userData = await mockRequest.post('/signin').auth('AllyAdmin:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.post('/create').set('Authorization', `Bearer ${token}`);
+    expect(response.text).toStrictEqual('You have create access');
+  });
+
+  // -- PUT /update
+
+  it('PUT /update: user', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+
+    let response = await mockRequest.put('/update').set('Authorization', `Bearer ${token}`);
+    expect(response.body.message).toStrictEqual('No access');
+  });
+
+  it('PUT /update: editor', async () => {
+    let userData = await mockRequest.post('/signin').auth('EddyEdit:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.put('/update').set('Authorization', `Bearer ${token}`);
+    expect(response.text).toStrictEqual('You have update access');
+  });
+
+  it('PUT /update: admin', async () => {
+    let userData = await mockRequest.post('/signin').auth('AllyAdmin:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.put('/update').set('Authorization', `Bearer ${token}`);
+    expect(response.text).toStrictEqual('You have update access');
+  });
+
+  // -- DELETE /delete
+
+  it('DELETE /delete: user', async () => {
+    let userData = await mockRequest.post('/signin').auth('Jack:testing123');
+    let token = userData.body.token;
+
+    let response = await mockRequest.delete('/delete').set('Authorization', `Bearer ${token}`);
+    expect(response.body.message).toStrictEqual('No access');
+  });
+
+  it('DELETE /delete: editor', async () => {
+    let userData = await mockRequest.post('/signin').auth('EddyEdit:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.delete('/delete').set('Authorization', `Bearer ${token}`);
+    expect(response.body.message).toStrictEqual('No access');
+  });
+
+  it('DELETE /delete: admin', async () => {
+    let userData = await mockRequest.post('/signin').auth('AllyAdmin:password');
+    let token = userData.body.token;
+
+    let response = await mockRequest.delete('/delete').set('Authorization', `Bearer ${token}`);
+    expect(response.text).toStrictEqual('You have delete access');
+  });
+
+});
+
