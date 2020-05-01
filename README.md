@@ -1,5 +1,5 @@
-# LAB - Class 13
-## Lab 13 - Bearer Authentication
+# LAB - Class 14
+## Lab 14 - Access Control
 ### Author: Clayton Jones
 
 ### Links and Resources  
@@ -31,4 +31,4 @@ How do you run tests?
 
 #### UML  
 
-![lab 13 UML](./assets/lab-10-UML.png)
+![lab 14 UML](./assets/lab-10-UML.png)
