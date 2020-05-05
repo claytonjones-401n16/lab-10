@@ -24,7 +24,7 @@ const generateSwagger = (app) => {
           },
       },
       basedir: __dirname, //app absolute path
-      files: ['../lib/server.js', '../lib/routes/auth-routes.js'], //Path to the API handlers
+      files: ['../lib/server.js', '../lib/routes/*'], //Path to the API handlers
   };
 
   expressSwagger(options);
